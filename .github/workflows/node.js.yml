@@ -22,9 +22,9 @@ jobs:
       - name: based on commit branch set the build_configuration
         id: build
         run: |
-          case "${{steps.extract_branch.outputs.branch}}" in 
+          case "${{ steps.extract_branch.outputs.branch }}" in 
             "main" )
-             echo ""${{steps.extract_branch.outputs.branch}}""
+             echo ""${{ steps.extract_branch.outputs.branch }}""
              echo " configuration=$(echo 'master')" >> $GITHUB_OUTPUT
              ;;
             "main")
