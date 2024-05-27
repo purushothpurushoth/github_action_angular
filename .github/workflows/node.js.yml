@@ -39,4 +39,4 @@ jobs:
       - name: angular_cli
         run: npm ci
       - name: angular_build
-        run: npm run build --configuration=${{steps.build.outputs.configuration}}
+        run: npm run build --configuration="${{steps.build.outputs.configuration}}"
