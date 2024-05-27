@@ -23,9 +23,9 @@ jobs:
         id: build
         run: |
           case ${{steps.extract_branch.outputs.branch}} in 
-          "master" )
+          master )
            echo " configuration=$(echo 'master')" >> $GITHUB_OUTPUT;;
-           "main")
+           main)
            echo " configuration=$(echo 'main')" >> $GITHUB_OUTPUT;;
            *)
           esac 
