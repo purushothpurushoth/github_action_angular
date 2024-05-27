@@ -1,28 +1,39 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
+---
 name: Node.js CI
-
 on:
-  workflow_dispatch:
-
+  workflow_dispatch: null
+env:
+  BuildNumer: ${{ github.run_id }}- $ {{github.run_number}}
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    outputs:
+        build_configuration: ${{steps.build.outputs.configuration}}
     strategy:
       matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        node-version:
+          - 18.x
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch= $(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - uses: actions/checkout@v4
+      - name: based on commit branch set the build_configuration
+        id: build
+        run: |
+          case ${{steps.extract_branch.outputs.branch}} in 
+          master )
+           echo " configuration=$(echo 'master')" >> $GITHUB_OUTPUT;;
+           main)
+           echo " configuration=$(echo 'main')" >> $GITHUB_OUTPUT;;
+          esac 
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - name: angular_cli
+        run: npm ci
+      - name: angular_build
+        run: npm run build --configuration=${{steps.build.outputs.configuration}}
