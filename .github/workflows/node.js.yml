@@ -23,13 +23,13 @@ jobs:
         id: build
         run: |
           case ${{steps.extract_branch.outputs.branch}} in 
-          master )
-           echo " configuration=$(echo 'master')" >> $GITHUB_OUTPUT
-           ;;
-           main)
-           echo " configuration=$(echo 'main')" >> $GITHUB_OUTPUT
-           ;;
-           *)
+            master )
+             echo " configuration=$(echo 'master')" >> $GITHUB_OUTPUT
+             ;;
+            main)
+             echo " configuration=$(echo 'main')" >> $GITHUB_OUTPUT
+             ;;
+            *)
           esac 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
