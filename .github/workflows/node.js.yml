@@ -22,4 +22,4 @@ jobs:
 
     - name: nxt check  
       shell: bash
-      run: echo "$branch"
+      run: echo "${branch}"
