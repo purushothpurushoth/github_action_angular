@@ -24,6 +24,7 @@ jobs:
         run: |
           case "${{steps.extract_branch.outputs.branch}}" in 
             "main" )
+             echo ""${{steps.extract_branch.outputs.branch}}""
              echo " configuration=$(echo 'master')" >> $GITHUB_OUTPUT
              ;;
             "main")
