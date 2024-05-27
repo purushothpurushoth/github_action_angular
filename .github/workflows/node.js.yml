@@ -1,5 +1,4 @@
----
-name: Node.js CI
+name: dev-deployment
 on:
   workflow_dispatch: null
 env:
@@ -7,38 +6,15 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-        build_configuration: ${{ steps.build.outputs.configuration }}
+    outputs: null
     strategy:
       matrix:
         node-version:
           - 18.x
     steps:
       - name: Extract branch name
-        shell: bash
-        run: echo "branch= $(echo ${GITHUB_REF#refs/heads/})" >> GITHUB_OUTPUT | echo "$branch"
         id: extract_branch
-      - uses: actions/checkout@v4
-      - name: based on commit branch set the build_configuration
-        id: build
-        run: |
-          case "${{ env.branch }}" in 
-            "main" )
-
-             echo""${{ env.branch }}""
-             echo " configuration=$(echo 'master')" >> $GITHUB_OUTPUT
-             ;;
-            "main")
-             echo " configuration=$(echo 'main')" >> $GITHUB_OUTPUT
-             ;;
-            *)
-          esac 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-      - name: angular_cli
-        run: npm ci
-      - name: angular_build
-        run: npm run build --configuration="${{ env.configuration }}"
+        shell: bash
+        run: |-
+          echo "branch= $(echo ${GITHUB_REF#refs/heads/})"
+          if [[ $branch == 'main']] ; then echo "HI $branch" endfi
