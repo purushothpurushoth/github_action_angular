@@ -16,4 +16,6 @@ jobs:
         shell: bash
         run: |-
           echo "branch= $(echo ${GITHUB_REF#refs/heads/})"
-          if [[ $branch == 'main']] ; then echo "HI $branch" endfi
+          if [[ $branch == 'main']]  then
+          echo "HI $branch" 
+          fi
