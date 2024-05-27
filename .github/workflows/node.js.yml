@@ -1,21 +1,25 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 name: dev-deployment
+
 on:
-  workflow_dispatch: null
+  workflow_dispatch:
 env:
-  BuildNumer: ${{ github.run_id }}- $ {{github.run_number}}
+   BuildNumer: ${{ github.run_id }}- $ {{github.run_number}}  
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version:
-          - 18.x
+        node-version: [18.x]
     steps:
-      - name: Extract branch name
-        id: extract_branch
-        shell: bash
-        run: |-
-          echo "branch= $(echo ${GITHUB_REF#refs/heads/})"
-          if [[ $branch == 'main']]  then
-          echo "HI $branch" 
-          fi
+
+    - name: Extract branch name
+      id: extract_branch
+      shell: bash
+      run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})">> $GITHUB_OUTPUT
+
+    - name: nxt check  
+      shell: bash
+      run: echo "$branch"
